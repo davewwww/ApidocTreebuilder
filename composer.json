@@ -1,0 +1,30 @@
+{
+  "name": "dwo/apidoc_treebuilder",
+  "description": "TreeBuilder for RAML and swagger",
+  "keywords": ["api", "doc", "raml", "swagger"],
+  "homepage": "https://github.com/davewwww",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Dave Www",
+      "email": "davewwwo@gmail.com",
+      "homepage": "https://github.com/davewwww"
+    }
+  ],
+  "require": {
+    "php": ">=5.4",
+    "symfony/http-foundation": ">=2.*"
+  },
+  "suggest": {
+    "symfony/yaml": "to dump output in yaml format"
+  },
+  "autoload": {
+    "psr-0": {"Dwo\\ApidocTreebuilder": "src/"}
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0-dev"
+    }
+  }
+}
