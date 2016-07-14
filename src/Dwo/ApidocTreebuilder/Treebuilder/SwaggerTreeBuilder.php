@@ -1,6 +1,6 @@
 <?php
 
-namespace Dwo\ApidocTreebuilder;
+namespace Dwo\ApidocTreebuilder\Treebuilder;
 
 use Dwo\ApidocTreebuilder\Finder\SwaggerNodeFinder;
 use Dwo\ApidocTreebuilder\Nodes\Swagger\Method;
@@ -9,11 +9,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class SwaggerTreeBuilder
+ * Class SwaggerTreebuilder
  *
  * @author Dave Www <davewwwo@gmail.com>
  */
-class SwaggerTreeBuilder
+class SwaggerTreebuilder
 {
     /**
      * @var Root;
@@ -79,4 +79,23 @@ class SwaggerTreeBuilder
         }
     }
 
+    /**
+     * @param string $title
+     * @param string $baseUri
+     * @param string $version
+     */
+    public function addInfos($title = '', $baseUri = '', $version = '')
+    {
+        $root = $this->getRoot();
+
+        if (null !== $title) {
+            $root->info->title = $title;
+        }
+        if (null !== $version) {
+            $root->info->version = $version;
+        }
+
+        $parsed = parse_url($baseUri);
+        $root->host = $parsed['host'];
+    }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Dwo\ApidocTreebuilder;
+namespace Dwo\ApidocTreebuilder\Treebuilder;
 
 use Dwo\ApidocTreebuilder\Finder\RamlNodeFinder;
 use Dwo\ApidocTreebuilder\Nodes\Raml\Body;
@@ -12,11 +12,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 
 /**
- * Class RamlTreeBuilder
+ * Class RamlTreebuilder
  *
  * @author Dave Www <davewwwo@gmail.com>
  */
-class RamlTreeBuilder
+class RamlTreebuilder
 {
     /**
      * @var Root;
@@ -134,6 +134,26 @@ class RamlTreeBuilder
                     $body->formParameters[$k] = $param;
                 }
             }
+        }
+    }
+
+    /**
+     * @param string $title
+     * @param string $baseUri
+     * @param string $version
+     */
+    public function addInfos($title = '', $baseUri = '', $version = '')
+    {
+        $root = $this->getRoot();
+
+        if (null !== $title) {
+            $root->title = $title;
+        }
+        if (null !== $version) {
+            $root->version = $version;
+        }
+        if (null !== $baseUri) {
+            $root->baseUri = $baseUri;
         }
     }
 }
