@@ -40,6 +40,23 @@ class Path implements NodeInterface
      */
     public function toArray()
     {
-        return $this->methods;
+        //sort known keys
+        $methodKeys = array('get', 'post', 'put', 'patch', 'delete');
+        $keys = array_keys($this->methods);
+        $intersect = array_values(array_intersect($methodKeys, $keys));
+
+        //sort unknown keys
+        if ($diff = array_diff($keys, $methodKeys)) {
+            asort($diff);
+            $intersect = array_merge($intersect, array_values($diff));
+        }
+
+        //sort all keys
+        $return = [];
+        foreach ($intersect as $method) {
+            $return[$method] = $this->methods[$method];
+        }
+
+        return $return;
     }
 }

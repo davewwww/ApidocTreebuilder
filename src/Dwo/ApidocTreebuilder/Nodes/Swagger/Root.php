@@ -54,6 +54,8 @@ class Root implements NodeInterface
      */
     public function toArray()
     {
+        ksort($this->paths);
+
         return array(
             "swagger"  => $this->swagger,
             "info"     => $this->info,
