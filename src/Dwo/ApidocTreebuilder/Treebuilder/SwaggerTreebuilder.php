@@ -108,6 +108,8 @@ class SwaggerTreebuilder
 
     public function optimizeTags() {
 
+        $root = $this->getRoot();
+
         //optimizeTags
         $allTags = [];
         foreach ($root->paths as $path) {
