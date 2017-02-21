@@ -77,6 +77,68 @@ class SwaggerTreebuilder
         if (null === $responseNode->description) {
             $responseNode->description = 'Example: '.$response->getContent();
         }
+
+        /**
+         * add tags
+         */
+        if (empty($method->tags)) {
+            $method->tags = $this->getTags();
+        }
+    }
+
+    /**
+     * @return array
+     */
+    private function getTags()
+    {
+        $tags = [];
+
+        foreach (explode('/', $request->getPathInfo()) as $seg) {
+            if (empty($seg) || preg_match('/\{.*\}/', $seg)) {
+                continue;
+            }
+            if (!in_array($seg, (array) $method->tags)) {
+                $tags[] = $seg;
+                break;
+            }
+        }
+
+        return $tags;
+    }
+
+    public function optimizeTags() {
+
+        //optimizeTags
+        $allTags = [];
+        foreach ($root->paths as $path) {
+            foreach ($path->methods as $method) {
+                foreach ($method->tags as $tag) {
+                    if (!isset($allTags[$tag])) {
+                        $allTags[$tag] = 0;
+                    }
+                    ++$allTags[$tag];
+                }
+            }
+        }
+
+        //only most common tags
+        arsort($allTags);
+        $allNewTags = [];
+        foreach($allTags as $tag => $count) {
+            if(1 === $count && count($allNewTags) >= 3) {
+                continue;
+            }
+            $allNewTags[] = $tag;
+        }
+
+        //overwrite tags
+        foreach ($root->paths as $path) {
+            foreach ($path->methods as $method) {
+                if(array_diff($method->tags, $allNewTags)) {
+                    $method->tags = array_values(array_intersect($method->tags, $allNewTags));
+                }
+            }
+        }
     }
 
     /**
