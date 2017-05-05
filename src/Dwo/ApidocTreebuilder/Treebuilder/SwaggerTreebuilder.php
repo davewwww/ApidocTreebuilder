@@ -82,14 +82,14 @@ class SwaggerTreebuilder
          * add tags
          */
         if (empty($method->tags)) {
-            $method->tags = $this->getTags();
+            $method->tags = $this->getTags($request, $method);
         }
     }
 
     /**
      * @return array
      */
-    private function getTags()
+    private function getTags(Request $request, Method $method)
     {
         $tags = [];
 
